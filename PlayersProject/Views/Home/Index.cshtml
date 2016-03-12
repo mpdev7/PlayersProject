@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="container" ng-controller="ctrlPlayersList">
+    <div class="jumbotron" style="background-color:slategrey;">
+        <h1>Players <span style="color:firebrick">Platform</span></h1>
+    </div>
+    <form name="insertForm">
+        <input type="text" ng-model="obj.name" placeholder="name" ng-required="true"/>
+        <input type="text" ng-model="obj.surname" placeholder="surname" ng-required="true"/>
+        <input type="text" ng-model="obj.position" placeholder="position" ng-required="true"/>
+        <input type="text" ng-model="obj.team" placeholder="team" ng-required="true"/>
+        <button class="btn btn-primary" type="submit" ng-disabled="insertForm.$invalid" ng-click="AddPlayer()">Insert new player</button>
+    </form>
+    <div class="row">
+        <div class="col-md-12 alert alert-danger" style="margin-top: 10px;" ng-show="ErrorView"><p ng-bind="ErrorPost"></p></div>   
+        <div class="col-md-6">
+            <h3 ng-cloak><span class="glyphicon glyphicon-user" style="color: firebrick"></span> {{title}}</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td ng-click="filter('Name')">Name</td>
+                        <td ng-click="filter('Surname')">Surname</td>
+                        <td ng-click="filter('Position')">Position</td>
+                        <td ng-click="filter('Team')">Team</td>
+                        <td>Option</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="x in players | orderBy:filterOf ">
+                        <td ng-bind="x.Name"></td>
+                        <td ng-bind="x.Surname"></td>
+                        <td ng-bind="x.Position"></td>
+                        <td ng-bind="x.Team"></td>
+                        <td><button class="btn btn-success btn-sm" type="submit" ng-click="ToMyList(x.Name,x.Surname,x.Position,x.Team)">Add</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <h3 ng-cloak><span class="glyphicon glyphicon-user" style="color: #29c711"></span> My Selected Player</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Surname</td>
+                        <td>Position</td>
+                        <td>Team</td>
+                        <td>Option</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="x in MyPlayers">
+                        <td ng-bind="x.Name"></td>
+                        <td ng-bind="x.Surname"></td>
+                        <td ng-bind="x.Position"></td>
+                        <td ng-bind="x.Team"></td>
+                        <td><button class="btn btn-danger btn-sm" ng-click="RemovePlayer(x)">Remove</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
