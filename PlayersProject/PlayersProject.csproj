@@ -228,7 +228,6 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="js\app.js" />
-    <Content Include="js\ctrlInput.js" />
     <Content Include="js\ctrlPlayersList.js" />
     <Content Include="js\sList.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />

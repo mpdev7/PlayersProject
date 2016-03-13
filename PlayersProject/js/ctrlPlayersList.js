@@ -11,7 +11,7 @@
         $scope.title = 'Players List';        
         
         var playerlist = function() {
-            var promise = sList.async();
+            var promise = sList.GetPlayersList();
             promise.then(function (response) {
                 $scope.players = response;
             });
@@ -20,7 +20,7 @@
         playerlist();
 
         var AddPlayer = function AddPlayer (){
-            var promise = sList.post($scope.obj.name, $scope.obj.surname, $scope.obj.position, $scope.obj.team);
+            var promise = sList.ListPost($scope.obj.name, $scope.obj.surname, $scope.obj.position, $scope.obj.team);
             promise.then(function (response) {
                 playerlist();
                 $scope.insertForm.$setPristine();
@@ -62,7 +62,7 @@
         }
 
         function RemovePlayer(player) {
-            var promise = sList.Remove(player);
+            var promise = sList.RemoveMyPlayer(player);
             promise.then(function (response) {
                 MyPlayersList();
             });

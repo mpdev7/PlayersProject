@@ -9,7 +9,7 @@
 
     function sList($http, $q) {
 
-        this.async = function() {
+        this.GetPlayersList = function() {
             var deferred = $q.defer();
 
             $http.get("http://localhost:52861/api/Players/").then(function (response) {
@@ -29,7 +29,7 @@
             return deferred.promise;
         }
 
-        this.post = function (name, surname, position, team) {
+        this.ListPost = function (name, surname, position, team) {
             
             var deferred = $q.defer();
 
@@ -59,7 +59,7 @@
             return deferred.promise;
         }
 
-        this.Remove = function (player) {
+        this.RemoveMyPlayer = function (player) {
             var deferred = $q.defer();
 
             $http.put("http://localhost:52861/api/MyPlayers/", player).then(function (response) {
