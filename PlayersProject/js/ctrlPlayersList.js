@@ -33,7 +33,14 @@
                     $interval(function(){
                         $scope.ErrorView = false;
                     },3000,1)                   
-                )                
+                )
+                if (error == 400) (
+                    $scope.ErrorPost = "Bad Request!",
+                    $scope.ErrorView = true,
+                    $interval(function () {
+                        $scope.ErrorView = false;
+                    }, 3000, 1)
+                )
             });
         }
 
@@ -51,13 +58,20 @@
             promise.then(function (response) {
                 MyPlayersList();
             }, function (error) {
-                if (error == 409) (
-                $scope.ErrorPost = "Wrong Request: " + surname + " it's already in List!",
-                $scope.ErrorView = true,
-                $interval(function () {
-                    $scope.ErrorView = false;
-                }, 3000, 1)
-            )
+                    if (error == 409) (
+                    $scope.ErrorPost = "Wrong Request: " + surname + " it's already in List!",
+                    $scope.ErrorView = true,
+                    $interval(function () {
+                        $scope.ErrorView = false;
+                    }, 3000, 1)
+                    )
+                    if (error == 400) (
+                        $scope.ErrorPost = "Bad Request!",
+                        $scope.ErrorView = true,
+                        $interval(function () {
+                            $scope.ErrorView = false;
+                        }, 3000, 1)
+                    )
             });
         }
 

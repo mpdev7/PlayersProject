@@ -22,33 +22,28 @@ namespace PlayersProject.Controllers.api
             return list.AsQueryable();
         }
 
-        [HttpGet]
-        public SingleResult<Player> GetPlayer(int id)
-        {
-            return SingleResult.Create(new[] { new Player { Id = id, Name = "Andrea" } }.AsQueryable());
-        }
-
         //POST api/Players
         [HttpPost]
         public IHttpActionResult Post(Player player)
         {
             var index = MyPlayersList.FindIndex(p => p.Name == player.Name && p.Surname == player.Surname);
 
-            if(index != -1)
+            if (index != -1)
             {
                 return this.Conflict();
-            }            
-            if (!(this.ModelState.IsValid))
-            {
-                return this.BadRequest();
             }
-            else if (this.ModelState.IsValid)
-            {
-                player.Id = MyPlayersList.Count();
-                MyPlayersList.Add(player);
-                return this.Ok();
+            else {
+                if (this.ModelState.IsValid)
+                {
+                    player.Id = MyPlayersList.Count();
+                    MyPlayersList.Add(player);
+                    return this.Ok();
+                }
+                else
+                {
+                    return this.BadRequest();
+                }
             }
-            return this.NotFound();
         }
 
         [HttpPut]

@@ -17,15 +17,8 @@ namespace PlayersProject.Controllers.api
         public IQueryable<Player> GetPlayers()
         {
             var list = PlayersList.ToArray();
-      
-            //System.Threading.Thread.Sleep(2000);
+                  
             return list.AsQueryable();
-        }
-
-        [HttpGet]
-        public SingleResult<Player> GetPlayer(int id)
-        {
-            return SingleResult.Create(new[] { new Player { Id = id, Name = "Andrea" } }.AsQueryable());
         }
 
         //POST api/Players
@@ -39,17 +32,19 @@ namespace PlayersProject.Controllers.api
                 return this.Conflict();
             }
             else {
+
                 player.Id = PlayersList.Count();
-                if (!(this.ModelState.IsValid))
+
+                if (this.ModelState.IsValid)
+                {
+                    PlayersList.Add(player);
+                    return this.Ok();                    
+                }
+                else
                 {
                     return this.BadRequest();
                 }
-                else if (this.ModelState.IsValid)
-                {
-                    PlayersList.Add(player);
-                    return this.Ok();
-                }
-                return this.NotFound();
+                
             }
         }
     }
