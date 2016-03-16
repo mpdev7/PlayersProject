@@ -12,8 +12,14 @@
         this.GetPlayersList = function() {
             var deferred = $q.defer();
 
-            $http.get("http://localhost:52861/api/Players/").then(function (response) {
+            $http({
+                method: "GET",
+                url: "http://localhost:52861/api/Players/",
+            }).then(function (response) {
                 deferred.resolve(response.data);
+            },
+            function (error) {
+                deferred.reject(error.status);
             });
 
             return deferred.promise;

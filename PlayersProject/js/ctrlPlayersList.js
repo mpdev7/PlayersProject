@@ -14,6 +14,14 @@
             var promise = sList.GetPlayersList();
             promise.then(function (response) {
                 $scope.players = response;
+            }, function (error) {
+                if (error == 500) (
+                    $scope.ErrorPost = "Wrong Get Request, status: 500",
+                    $scope.ErrorView = true,
+                    $interval(function () {
+                        $scope.ErrorView = false;
+                    }, 3000, 1)
+                )
             });
         }
         
