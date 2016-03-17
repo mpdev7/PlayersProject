@@ -36,7 +36,7 @@
                 $scope.ErrorView = false;
             }, function (error) {
                 if (error == 409) (
-                    $scope.ErrorPost = "Wrong Request: " + $scope.surname + " it's already in List!",
+                    $scope.ErrorPost = "Wrong Request: " + $scope.obj.surname + " it's already in List!",
                     $scope.ErrorView = true,
                     $interval(function(){
                         $scope.ErrorView = false;

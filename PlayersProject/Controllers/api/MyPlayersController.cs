@@ -35,7 +35,6 @@ namespace PlayersProject.Controllers.api
             else {
                 if (this.ModelState.IsValid)
                 {
-                    player.Id = MyPlayersList.Count();
                     MyPlayersList.Add(player);
                     return this.Ok();
                 }
