@@ -14,7 +14,7 @@
 
             $http({
                 method: "GET",
-                url: "http://localhost:52861/api/Players",
+                url: "http://localhost:52861/api/Players/",
             }).then(function (response) {
                 deferred.resolve(response.data);
             },
@@ -41,7 +41,7 @@
 
             var NewPlayer = {Name: name, Surname: surname, Position: position, Team: team};
 
-            $http.post("http://localhost:52861/api/Players", NewPlayer).then(function (response) {
+            $http.post("http://localhost:52861/api/Players/", NewPlayer).then(function (response) {
                 deferred.resolve(response.data);
             }, function (error) {
                 deferred.reject(error.status);
@@ -50,11 +50,13 @@
             return deferred.promise;
         }
 
-        this.MyListPost = function (id) {
+        this.MyListPost = function (name, surname, position, team) {
             
             var deferred = $q.defer();
 
-            $http.post("http://localhost:52861/api/MyPlayers/" + id).then(function (response) {
+            var NewPlayer = { Name: name, Surname: surname, Position: position, Team: team };
+
+            $http.post("http://localhost:52861/api/MyPlayers/", NewPlayer).then(function (response) {
                 deferred.resolve(response.data);
             }, function (error) {
                 deferred.reject(error.status);
@@ -63,10 +65,10 @@
             return deferred.promise;
         }
 
-        this.RemoveMyPlayer = function (id) {
+        this.RemoveMyPlayer = function (player) {
             var deferred = $q.defer();
 
-            $http.put("http://localhost:52861/api/MyPlayers/" + id).then(function (response) {
+            $http.put("http://localhost:52861/api/MyPlayers/", player).then(function (response) {
                 deferred.resolve(response.data);
             });
 
