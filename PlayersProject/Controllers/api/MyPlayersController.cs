@@ -7,37 +7,42 @@ using System.Web.Http;
 using PlayersProject.Models;
 using NHibernate;
 using NHibernate.Linq;
+using Autofac;
 
 namespace PlayersProject.Controllers.api
 {
     public class MyPlayersController : ApiController
     {
-        private ISessionFactory sessionFactory;
-
-        private static List<Player> MyPlayersList = new List<Player>();
+        private static IContainer Container;
 
         public MyPlayersController()
         {
-            sessionFactory = NHibernateHelper.GetSession();                       
-        }
+            Container = CreateContainer.GetContainer();
+        }                     
+        
 
         //GET api/Players
         [HttpGet]
         public IQueryable<Player> GetMyPlayers()
         {
-            using (var session = new UnitOfWork(sessionFactory))
+            //using (var session = new UnitOfWork())
+            //{
+            //    var mylist = session.session().Query<MyList>().Count();
+            //if (mylist < 1)
+            //{
+            //    var addlist = new MyList { Name = "mylist" };
+            //    session.session().SaveOrUpdate(addlist);
+
+            //    session.Commit();
+            //}
+            //    var list = session.session().Query<MyList>().Where(x => x.Name == "mylist").Single<MyList>();
+
+            //    return list.Players.ToArray().AsQueryable();
+            //}
+
+            using (var scope = Container.BeginLifetimeScope())
             {
-                var mylist = session.session().Query<MyList>().Count();
-                if (mylist < 1)
-                {
-                    var addlist = new MyList { Name = "mylist" };
-                    session.session().SaveOrUpdate(addlist);
-
-                    session.Commit();
-                }
-                var list = session.session().Query<MyList>().Where(x => x.Name == "mylist").Single<MyList>();
-
-                return list.Players.ToArray().AsQueryable();
+                return scope.Resolve<IGetList>().GetMyList().AsQueryable();
             }
         }
 
@@ -45,7 +50,7 @@ namespace PlayersProject.Controllers.api
         [HttpPost]
         public IHttpActionResult Post(int id)
         {            
-            using (var session = new UnitOfWork(sessionFactory))
+            using (var session = new UnitOfWork())
             {
                 var p = session.session().Query<Player>().Where(x => x.Id == id).Single();
                 var indexs = session.session().Query<MyList>();
@@ -69,7 +74,7 @@ namespace PlayersProject.Controllers.api
         [HttpPut]       
         public IHttpActionResult Put(int id)
         {            
-            using (var session = new UnitOfWork(sessionFactory))
+            using (var session = new UnitOfWork())
             {
                 var p = session.session().Query<Player>().Where(x => x.Id == id).Single();
 

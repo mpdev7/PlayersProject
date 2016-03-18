@@ -6,7 +6,7 @@ using System.Web;
 
 namespace PlayersProject.Models
 {
-    public class UnitOfWork : IDisposable
+    public class UnitOfWork : IDisposable 
     {
         private ISession Session;
         private ITransaction transaction;

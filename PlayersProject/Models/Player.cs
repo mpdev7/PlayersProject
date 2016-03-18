@@ -5,7 +5,13 @@ using System.Web;
 
 namespace PlayersProject.Models
 {
-    public class Player
+    public interface IPlayer
+    {
+        void AddToMyPlayer(MyList l);
+        void RemoveMyPlayer();
+    }
+
+    public class Player : IPlayer
     {
         public virtual int Id { get; protected set; }
         public virtual string Name { get; set; }

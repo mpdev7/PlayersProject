@@ -234,6 +234,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CreateContainer.cs" />
+    <Compile Include="Models\GetList.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Mappings\MyListMap.cs" />
@@ -241,6 +243,7 @@
     <Compile Include="Models\MyList.cs" />
     <Compile Include="Models\NHibernateHelper.cs" />
     <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\PostPlayer.cs" />
     <Compile Include="Models\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Owin;
 using Owin;
+using PlayersProject.Models;
 
 [assembly: OwinStartupAttribute(typeof(PlayersProject.Startup))]
 namespace PlayersProject
@@ -9,6 +10,8 @@ namespace PlayersProject
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+
+            CreateContainer.InitContainer();
         }
     }
 }

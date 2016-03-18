@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using PlayersProject.Models;
+using Autofac;
 
 namespace PlayersProject
 {
@@ -46,6 +47,8 @@ namespace PlayersProject
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
 
             NHibernateHelper.CreateSessionFactory();
+
+            
 
             // Uncomment the following lines to enable logging in with third party login providers
             //app.UseMicrosoftAccountAuthentication(
