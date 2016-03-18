@@ -13,11 +13,19 @@ namespace PlayersProject.Models
         public virtual string Position { get; set; }
         public virtual string Team { get; set; }
 
-        public virtual IList<MyList> Lists { get; protected set; }
+        public virtual MyList Lists { get; set; }
 
-        public Player()
+
+        public virtual void AddToMyPlayer(MyList l)
         {
-            Lists = new List<MyList>();
+            Lists = l;
+            l.Players.Add(this);
+        }
+
+        public virtual void RemoveMyPlayer()
+        {
+            Lists.Players.Remove(this);
+            Lists = null;
         }
     }
 }

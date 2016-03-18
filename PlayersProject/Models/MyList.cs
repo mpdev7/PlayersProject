@@ -13,18 +13,38 @@ namespace PlayersProject.Models
 
         public MyList()
         {
-            Players = new List<Player>();
+            if (Players == null)
+            {
+                Players = new List<Player>();
+            }
         }
 
         public virtual void AddPlayer(Player player)
         {
-            player.Lists.Add(this);
-            Players.Add(player);
+            //player.Lists = this;
+            //Players.Add(player);
         }
 
+        public virtual void AddtoMyList(int i)
+        {
+            
+        }
+        
         public virtual List<Player> GetPlayer()
         {
             return Players.ToList();
+        }
+
+        public virtual bool Contain(Player p)
+        {
+            foreach (var item in Players)
+            {
+                if(item.Name == p.Name && item.Surname == p.Surname)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
