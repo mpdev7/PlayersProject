@@ -13,11 +13,11 @@ namespace PlayersProject.Controllers.api
 {
     public class MyPlayersController : ApiController
     {
-        private static IContainer Container;
+        private IGetList _listget;
 
-        public MyPlayersController()
+        public MyPlayersController(IGetList listget)
         {
-            Container = CreateContainer.GetContainer();
+            _listget = listget;
         }                     
         
 
@@ -40,50 +40,48 @@ namespace PlayersProject.Controllers.api
             //    return list.Players.ToArray().AsQueryable();
             //}
 
-            using (var scope = Container.BeginLifetimeScope())
-            {
-                return scope.Resolve<IGetList>().GetMyList().AsQueryable();
-            }
+                return _listget.GetMyList().AsQueryable();
+            
         }
 
         //POST api/Players
-        [HttpPost]
-        public IHttpActionResult Post(int id)
-        {            
-            using (var session = new UnitOfWork())
-            {
-                var p = session.session().Query<Player>().Where(x => x.Id == id).Single();
-                var indexs = session.session().Query<MyList>();
-                var index = session.session().Query<MyList>().Where(x => x.Name == "mylist").Single();
+        //[HttpPost]
+        //public IHttpActionResult Post(int id)
+        //{            
+        //    //using (var session = new UnitOfWork())
+        //    //{
+        //    //    var p = session.session().Query<Player>().Where(x => x.Id == id).Single();
+        //    //    var indexs = session.session().Query<MyList>();
+        //    //    var index = session.session().Query<MyList>().Where(x => x.Name == "mylist").Single();
 
-                var contain = index.Contain(p);
+        //    //    var contain = index.Contain(p);
 
-                if (!contain)
-                {
-                    p.AddToMyPlayer(index);
-                    session.session().SaveOrUpdate(p);
-                    session.Commit();
-                    return this.Ok();
-                }
-                else {
-                    return this.Conflict();
-                }
-            }
-        }
+        //    //    if (!contain)
+        //    //    {
+        //    //        p.AddToMyPlayer(index);
+        //    //        session.session().SaveOrUpdate(p);
+        //    //        session.Commit();
+        //    //        return this.Ok();
+        //    //    }
+        //    //    else {
+        //    //        return this.Conflict();
+        //    //    }
+        //    //}
+        //}
         
-        [HttpPut]       
-        public IHttpActionResult Put(int id)
-        {            
-            using (var session = new UnitOfWork())
-            {
-                var p = session.session().Query<Player>().Where(x => x.Id == id).Single();
+        //[HttpPut]       
+        //public IHttpActionResult Put(int id)
+        //{            
+        //    //using (var session = new UnitOfWork())
+        //    //{
+        //    //    var p = session.session().Query<Player>().Where(x => x.Id == id).Single();
 
-                p.RemoveMyPlayer();
-                session.session().SaveOrUpdate(p);
-                session.Commit();
+        //    //    p.RemoveMyPlayer();
+        //    //    session.session().SaveOrUpdate(p);
+        //    //    session.Commit();
 
-                return this.Ok();
-            }
-        }
+        //    //    return this.Ok();
+        //    //}
+        //}
     }
 }

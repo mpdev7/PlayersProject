@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Autofac.Integration.WebApi;
+using Newtonsoft.Json;
+using PlayersProject.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +22,13 @@ namespace PlayersProject
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.Re‌​ferenceLoopHandling = ReferenceLoopHandling.Ignore;
+
+            var builder = new CreateContainer();
+            builder.InitContainer();
+            var container = builder.GetContainer();
+
+            var config = GlobalConfiguration.Configuration;
+            config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
         }
     }
 }

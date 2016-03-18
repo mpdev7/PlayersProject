@@ -1,7 +1,10 @@
 ﻿using Autofac;
+using Autofac.Integration.WebApi;
+using NHibernate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 
 namespace PlayersProject.Models
@@ -17,6 +20,8 @@ namespace PlayersProject.Models
             builder.RegisterType<UnitOfWork>();
             builder.RegisterType<GetList>().As<IGetList>();
             builder.RegisterType<Player>().As<IPlayer>();
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+
             container = builder.Build();
         }
 

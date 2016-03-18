@@ -20,12 +20,12 @@ namespace PlayersProject.Models
             u = uow;
         }
 
-        public virtual Post(Player p)
-        {
-            u.session().SaveOrUpdate(p);
+        //public virtual Post(Player p)
+        //{
+        //    u.session().SaveOrUpdate(p);
 
-            u.Commit();
+        //    u.Commit();
             
-        }
+        //}
     }
 }

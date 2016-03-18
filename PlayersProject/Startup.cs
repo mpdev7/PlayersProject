@@ -1,6 +1,8 @@
-﻿using Microsoft.Owin;
+﻿using Autofac.Integration.WebApi;
+using Microsoft.Owin;
 using Owin;
 using PlayersProject.Models;
+using System.Web.Http;
 
 [assembly: OwinStartupAttribute(typeof(PlayersProject.Startup))]
 namespace PlayersProject
@@ -9,9 +11,7 @@ namespace PlayersProject
     {
         public void Configuration(IAppBuilder app)
         {
-            ConfigureAuth(app);
-
-            CreateContainer.InitContainer();
+            ConfigureAuth(app);            
         }
     }
 }
