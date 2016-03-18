@@ -19,33 +19,42 @@ namespace PlayersProject.Controllers.api
         {
             if (sessionFactory == null)
             {
-                sessionFactory = NHibernateHelper.GetSession();
+                sessionFactory =  NHibernateHelper.GetSession();
             }
         }
 
         //GET api/Players
         [HttpGet]
         public IQueryable<Player> GetPlayers()
-        {            
-            using (var session = sessionFactory.OpenSession())
+        {
+            using (var session = new UnitOfWork(sessionFactory))
             {
-                using (session.BeginTransaction())
-                {
-                    var PlayerList = session.Query<Player>();
-                    PlayerList = PlayerList.ToArray().AsQueryable();
+                var PlayerList = session.session().Query<Player>();
+                PlayerList = PlayerList.ToArray().AsQueryable();
 
-                    return PlayerList;                   
-                }
+                return PlayerList;
             }
+
+            //using (var session = sessionFactory.OpenSession())
+            //{
+            //    using (var transaction = session.BeginTransaction())
+            //    {
+            //        var PlayerList = session.Query<Player>();
+            //        PlayerList = PlayerList.ToArray().AsQueryable();
+
+            //        return PlayerList;
+            //    }
+            //}
+
         }
 
         //POST api/Players
         [HttpPost]
         public IHttpActionResult Post(Player player)
         {
-            using (var session = sessionFactory.OpenSession())
+            using(var session = new UnitOfWork(sessionFactory))
             {
-                var index = session.Query<Player>().Count(x => x.Name == player.Name && x.Surname == player.Surname);
+                var index = session.session().Query<Player>().Count(x => x.Name == player.Name && x.Surname == player.Surname);
 
                 if (index > 0)
                 {
@@ -54,12 +63,9 @@ namespace PlayersProject.Controllers.api
                 else {
                     if (this.ModelState.IsValid)
                     {
-                        using (var transaction = session.BeginTransaction())
-                        {
-                            session.SaveOrUpdate(player);
+                        session.session().SaveOrUpdate(player);
+                        session.Commit();
 
-                            transaction.Commit();
-                        }
                         return this.Ok();
                     }
                     else
@@ -67,7 +73,7 @@ namespace PlayersProject.Controllers.api
                         return this.BadRequest();
                     }
                 }
-            }
+             }
         }
     }
 }

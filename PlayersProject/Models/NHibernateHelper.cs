@@ -39,11 +39,11 @@ namespace PlayersProject.Models
 
             // this NHibernate tool takes a configuration (with mapping info in)
             // and exports a database schema from it
-            //new SchemaExport(cfg)
-            //  .Create(false, true);
+            new SchemaExport(cfg)
+              .Create(false, true);
 
-            new SchemaUpdate(cfg)
-                .Execute(false, true);
+            //new SchemaUpdate(cfg)
+            //    .Execute(false, true);
         }
         public static ISessionFactory GetSession()
         {
