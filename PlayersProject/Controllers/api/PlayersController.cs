@@ -17,7 +17,10 @@ namespace PlayersProject.Controllers.api
 
         public PlayersController()
         {
-            sessionFactory = NHibernateHelper.CreateSessionFactory();
+            if (sessionFactory == null)
+            {
+                sessionFactory = NHibernateHelper.GetSession();
+            }
         }
 
         //GET api/Players
@@ -30,7 +33,7 @@ namespace PlayersProject.Controllers.api
                 {
                     var PlayerList = session.Query<Player>();
                     PlayerList = PlayerList.ToArray().AsQueryable();
-                                   
+
                     return PlayerList;                   
                 }
             }
@@ -40,7 +43,6 @@ namespace PlayersProject.Controllers.api
         [HttpPost]
         public IHttpActionResult Post(Player player)
         {
-            var sessionFactory = NHibernateHelper.CreateSessionFactory();
             using (var session = sessionFactory.OpenSession())
             {
                 var index = session.Query<Player>().Count(x => x.Name == player.Name && x.Surname == player.Surname);
