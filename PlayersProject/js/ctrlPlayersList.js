@@ -61,8 +61,8 @@
 
         MyPlayersList();
 
-        function ToMyList(id,surname) {
-            var promise = sList.MyListPost(id);
+        function ToMyList(name, surname, position, team) {
+            var promise = sList.MyListPost(name, surname, position, team);
             promise.then(function (response) {
                 MyPlayersList();
             }, function (error) {
@@ -83,8 +83,8 @@
             });
         }
 
-        function RemovePlayer(id) {
-            var promise = sList.RemoveMyPlayer(id);
+        function RemovePlayer(player) {
+            var promise = sList.RemoveMyPlayer(player);
             promise.then(function (response) {
                 MyPlayersList();
             });
