@@ -19,7 +19,7 @@ namespace PlayersProject.Models
         {
             var builder = new ContainerBuilder();
             builder.RegisterType<NHibernateHelper>();
-            builder.Register<ISessionFactory>(x => NHibernateHelper.GetSession());
+            builder.Register(x => NHibernateHelper.GetSession()).As<ISessionFactory>();
             builder.RegisterType<UnitOfWork>();
             builder.RegisterType<GetList>().As<IGetList>();
             builder.RegisterType<Player>().As<IPlayer>();
