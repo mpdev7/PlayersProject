@@ -26,8 +26,6 @@ namespace PlayersProject.Models
             builder.RegisterType<PostPlayer>().As<IPostPlayer>();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
-            //builder.RegisterWebAiControllerspiModelBinders(Assembly.GetExecutingAssembly());
-            //builder.RegisterWebApiModelBinderProvider();
 
             container = builder.Build();
         }

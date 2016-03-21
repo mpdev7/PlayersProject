@@ -18,17 +18,8 @@ namespace PlayersProject
             var builder = new CreateContainer();         
             var container = builder.GetContainer();
 
-
-
-
-            //DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
-            //GlobalConfiguration.Configuration.DependencyResolver = depe
             var resolver = new AutofacWebApiDependencyResolver(container);
             GlobalConfiguration.Configuration.DependencyResolver = resolver;
-
-            app.UseAutofacMiddleware(container);
-            
-
         }
     }
 }
