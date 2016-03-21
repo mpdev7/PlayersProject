@@ -15,59 +15,30 @@ namespace PlayersProject.Controllers.api
     public class PlayersController : ApiController
     {
         private IGetList _listGet;
+        private IPostPlayer _postPlayer;
 
-        public PlayersController(IGetList listGet)
+        public PlayersController(IGetList listGet, IPostPlayer postPlayer)
         {
             _listGet = listGet;
+            _postPlayer = postPlayer;
         }
 
         //GET api/Players
         [HttpGet]
         public IQueryable<Player> GetPlayers()
         {
-            //using (var session = new UnitOfWork(sessionFactory))
-            //{
-            //    var PlayerList = session.session().Query<Player>();
-            //    PlayerList = PlayerList.ToArray().AsQueryable();
-
-            //    return PlayerList;
-            //}
-
-            return _listGet.Get<Player>().AsQueryable();               
+            return _listGet.Get<Player>().AsQueryable(); 
         }
 
         //POST api/Players
         [HttpPost]
         public IHttpActionResult Post(Player player)
-        {
-            //using(var session = new UnitOfWork())
-            //{
-            //    var index = session.session().Query<Player>().Count(x => x.Name == player.Name && x.Surname == player.Surname);
-
-            //    if (index > 0)
-            //    {
-            //        return this.Conflict();
-            //    }
-            //    else {
-            //        if (this.ModelState.IsValid)
-            //        {
-            //            session.session().SaveOrUpdate(player);
-            //            session.Commit();
-
-            //            return this.Ok();
-            //        }
-            //        else
-            //        {
-            //            return this.BadRequest();
-            //        }
-            //    }
-            // }
-
-            if (_listGet.exist(player))
+        {             
+            if (_postPlayer.Post(player))
             {
-                return this.Conflict();
+                return this.Ok();
             }
-            else return this.Ok();
+            else return this.Conflict();
         }
     }
 }

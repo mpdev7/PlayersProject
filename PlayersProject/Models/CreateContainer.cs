@@ -1,6 +1,8 @@
 ﻿using Autofac;
+using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using NHibernate;
+using PlayersProject.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,14 +15,19 @@ namespace PlayersProject.Models
     {
         private IContainer container { get; set; }
 
-        public void InitContainer()
+        public CreateContainer()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterType<NHibernateHelper>();            
+            builder.RegisterType<NHibernateHelper>();
+            builder.Register<ISessionFactory>(x => NHibernateHelper.GetSession());
             builder.RegisterType<UnitOfWork>();
             builder.RegisterType<GetList>().As<IGetList>();
             builder.RegisterType<Player>().As<IPlayer>();
+            builder.RegisterType<PostPlayer>().As<IPostPlayer>();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+            builder.RegisterControllers(typeof(MvcApplication).Assembly);
+            //builder.RegisterWebAiControllerspiModelBinders(Assembly.GetExecutingAssembly());
+            //builder.RegisterWebApiModelBinderProvider();
 
             container = builder.Build();
         }

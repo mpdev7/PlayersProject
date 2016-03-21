@@ -14,10 +14,12 @@ namespace PlayersProject.Controllers.api
     public class MyPlayersController : ApiController
     {
         private IGetList _listget;
+        private IPostPlayer _postplayer;
 
-        public MyPlayersController(IGetList listget)
+        public MyPlayersController(IGetList listget, IPostPlayer postplayer)
         {
             _listget = listget;
+            _postplayer = postplayer;
         }                     
         
 
@@ -25,63 +27,26 @@ namespace PlayersProject.Controllers.api
         [HttpGet]
         public IQueryable<Player> GetMyPlayers()
         {
-            //using (var session = new UnitOfWork())
-            //{
-            //    var mylist = session.session().Query<MyList>().Count();
-            //if (mylist < 1)
-            //{
-            //    var addlist = new MyList { Name = "mylist" };
-            //    session.session().SaveOrUpdate(addlist);
-
-            //    session.Commit();
-            //}
-            //    var list = session.session().Query<MyList>().Where(x => x.Name == "mylist").Single<MyList>();
-
-            //    return list.Players.ToArray().AsQueryable();
-            //}
-
-                return _listget.GetMyList().AsQueryable();
-            
+                return _listget.GetMyList().AsQueryable();           
         }
 
         //POST api/Players
-        //[HttpPost]
-        //public IHttpActionResult Post(int id)
-        //{            
-        //    //using (var session = new UnitOfWork())
-        //    //{
-        //    //    var p = session.session().Query<Player>().Where(x => x.Id == id).Single();
-        //    //    var indexs = session.session().Query<MyList>();
-        //    //    var index = session.session().Query<MyList>().Where(x => x.Name == "mylist").Single();
+        [HttpPost]
+        public IHttpActionResult Post(int id)
+        { 
+            if (_postplayer.PostToList(id))
+            {
+                return this.Ok();
+            }
+            else return this.Conflict();
+        }
 
-        //    //    var contain = index.Contain(p);
+        [HttpPut]       
+        public IHttpActionResult Put(int id)
+        {
+            _postplayer.RemoveFromList(id);
 
-        //    //    if (!contain)
-        //    //    {
-        //    //        p.AddToMyPlayer(index);
-        //    //        session.session().SaveOrUpdate(p);
-        //    //        session.Commit();
-        //    //        return this.Ok();
-        //    //    }
-        //    //    else {
-        //    //        return this.Conflict();
-        //    //    }
-        //    //}
-        //}
-        
-        //[HttpPut]       
-        //public IHttpActionResult Put(int id)
-        //{            
-        //    //using (var session = new UnitOfWork())
-        //    //{
-        //    //    var p = session.session().Query<Player>().Where(x => x.Id == id).Single();
-
-        //    //    p.RemoveMyPlayer();
-        //    //    session.session().SaveOrUpdate(p);
-        //    //    session.Commit();
-
-        //    //    return this.Ok();
-        //    //}
-        //}
+            return this.Ok();
+        }
     }
 }
