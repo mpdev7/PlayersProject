@@ -18,33 +18,5 @@ namespace PlayersProject.Models
                 Players = new List<Player>();
             }
         }
-
-        public virtual void AddPlayer(Player player)
-        {
-            //player.Lists = this;
-            //Players.Add(player);
-        }
-
-        public virtual void AddtoMyList(int i)
-        {
-            
-        }
-        
-        public virtual List<Player> GetPlayer()
-        {
-            return Players.ToList();
-        }
-
-        public virtual bool Contain(Player p)
-        {
-            foreach (var item in Players)
-            {
-                if(item.Name == p.Name && item.Surname == p.Surname)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
     }
 }

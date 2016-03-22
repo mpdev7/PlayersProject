@@ -42,7 +42,7 @@ namespace PlayersProject.Models
             {
                 GetPlayer(id).AddToMyPlayer(list);
 
-                u.session().SaveOrUpdate(GetPlayer(id));
+                u.session().Save(GetPlayer(id));
                 u.Commit();
 
                 return true;
@@ -74,7 +74,7 @@ namespace PlayersProject.Models
 
         private Player GetPlayer(int id)
         {
-            return u.session().Query<Player>().Where(x => x.Id == id).Single();
+            return u.session().Load<Player>(id);
         }
     }
 

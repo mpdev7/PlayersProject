@@ -22,7 +22,7 @@ namespace PlayersProject.Models
 
             var config =
                 Fluently.Configure()
-                .Database(MsSqlCeConfiguration.MsSqlCe40.ConnectionString(DBstring))
+                .Database(MsSqlCeConfiguration.MsSqlCe40.ConnectionString(c => c.FromConnectionStringWithKey("MyConnection")))
                 .Mappings(m => m.FluentMappings.AddFromAssemblyOf<Startup>())
                 .ExposeConfiguration(BuildSchema)                
                 .BuildSessionFactory();            
