@@ -15,14 +15,14 @@ namespace PlayersProject.Models
     public class NHibernateHelper
     {
         private static ISessionFactory sessionFactory;
-        private static string DBstring = "Data Source=C:/Users/Matteo/Documents/Visual Studio 2015/Projects/PlayersProject/PlayersDatabase.sdf";
 
         public static void CreateSessionFactory()
         {
+            var cfg = new Configuration();
+            cfg.Configure();
 
             var config =
-                Fluently.Configure()
-                .Database(MsSqlCeConfiguration.MsSqlCe40.ConnectionString(c => c.FromConnectionStringWithKey("MyConnection")))
+                Fluently.Configure(cfg)
                 .Mappings(m => m.FluentMappings.AddFromAssemblyOf<Startup>())
                 .ExposeConfiguration(BuildSchema)                
                 .BuildSessionFactory();            
