@@ -24,6 +24,7 @@ namespace PlayersProject.Models
             builder.RegisterType<GetList>().As<IGetList>();
             builder.RegisterType<Player>().As<IPlayer>();
             builder.RegisterType<PostPlayer>().As<IPostPlayer>();
+            builder.RegisterType<PostList>().As<IPostList>();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 

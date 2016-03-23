@@ -33,10 +33,6 @@ namespace PlayersProject.Models
 
         public static void BuildSchema(Configuration cfg)
         {
-            // delete the existing db on each run
-            //if (File.Exists(DBstring))
-            //    File.Delete(DBstring);
-
             // this NHibernate tool takes a configuration (with mapping info in)
             // and exports a database schema from it
             new SchemaExport(cfg)

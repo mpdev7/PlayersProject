@@ -12,9 +12,10 @@ namespace PlayersProject.Models.Mappings
         {
             Id(x => x.Id);
             Map(x => x.Name);
-            HasMany(x => x.Players)
+            HasManyToMany(x => x.Players)
                 .Cascade.All()
-                .Inverse();                                                                     
+                .Inverse()
+                .Table("PlayerList");                                                                     
         }
     }
 }

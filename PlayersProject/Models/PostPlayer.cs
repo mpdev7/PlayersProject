@@ -10,8 +10,8 @@ namespace PlayersProject.Models
     public interface IPostPlayer
     {
         bool Post(Player p);
-        bool PostToList(int id);
-        void RemoveFromList(int id);
+        bool PostToList(int idP, int idL);
+        void RemoveFromList(int idPlayer, int idList);
     }
 
     public class PostPlayer : IPostPlayer
@@ -23,6 +23,7 @@ namespace PlayersProject.Models
             u = uow;
         }
 
+        //Post new player 
         public virtual bool Post(Player p)
         {
             if ((u.session().Query<Player>().Where(x => x.Name == p.Name && x.Surname == p.Surname).Count() < 1)) {
@@ -35,14 +36,17 @@ namespace PlayersProject.Models
             else return false;
         }
 
-        public virtual bool PostToList(int id)
+        //Add player in my list
+        public virtual bool PostToList(int idPlayer, int idList)
         {
-            var list = GetMyList();
-            if (!(exist(list, id)))
+            var list = GetMyList(idList);
+            if (!(exist(list, idPlayer)))
             {
-                GetPlayer(id).AddToMyPlayer(list);
+                var player = GetPlayer(idPlayer);
+                player.AddToMyPlayer(list);
 
-                u.session().Save(GetPlayer(id));
+                u.session().SaveOrUpdate(player);
+                u.session().Flush();
                 u.Commit();
 
                 return true;
@@ -50,17 +54,26 @@ namespace PlayersProject.Models
             else return false;
         }
 
-        public virtual void RemoveFromList(int id)
+        //Remove player from my list
+        public virtual void RemoveFromList(int idPlayer, int idList)
         {
-            var player = GetPlayer(id);
-            player.RemoveMyPlayer();
+            var player = GetPlayer(idPlayer);
+            var list = GetMyList(idList);
+            player.RemoveMyPlayer(list);
             u.session().SaveOrUpdate(player);
             u.Commit();
         }
 
-        public MyList GetMyList()
+        //Get list with id
+        private MyList GetMyList(int id)
         {
-            return u.session().Query<MyList>().Where(x => x.Name == "mylist").Single();
+            return u.session().Load<MyList>(id);
+        }
+
+        //Get player with id
+        private Player GetPlayer(int id)
+        {
+            return u.session().Load<Player>(id);
         }
 
         private bool exist(MyList l, int id)
@@ -70,12 +83,7 @@ namespace PlayersProject.Models
                 return true;
             }
             else return false;
-        }
-
-        private Player GetPlayer(int id)
-        {
-            return u.session().Load<Player>(id);
-        }
+        }        
     }
 
 

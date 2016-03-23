@@ -25,16 +25,20 @@ namespace PlayersProject.Controllers.api
 
         //GET api/Players
         [HttpGet]
-        public IQueryable<Player> GetMyPlayers()
+        public IQueryable<Player> GetMyPlayers(int id)
         {
-                return _listget.GetMyList().AsQueryable();           
+                return _listget.GetMyList(id).AsQueryable();           
         }
 
         //POST api/Players
         [HttpPost]
-        public IHttpActionResult Post(int id)
-        { 
-            if (_postplayer.PostToList(id))
+        public IHttpActionResult Post(int[] id)
+        {
+            if(id.Count() < 2)
+            {
+                return this.BadRequest();
+            }
+            else if(_postplayer.PostToList(id[0],id[1]))
             {
                 return this.Ok();
             }
@@ -42,9 +46,9 @@ namespace PlayersProject.Controllers.api
         }
 
         [HttpPut]       
-        public IHttpActionResult Put(int id)
+        public IHttpActionResult Put(int[] id)
         {
-            _postplayer.RemoveFromList(id);
+            _postplayer.RemoveFromList(id[0], id[1]);
 
             return this.Ok();
         }

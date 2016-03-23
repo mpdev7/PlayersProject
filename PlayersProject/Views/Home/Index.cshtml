@@ -20,6 +20,7 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <td>Count</td>
                         <td ng-click="filter('Name')">Name</td>
                         <td ng-click="filter('Surname')">Surname</td>
                         <td ng-click="filter('Position')">Position</td>
@@ -29,37 +30,44 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="x in players | orderBy:filterOf ">
+                        <td ng-bind="x.AddCount"></td>
                         <td ng-bind="x.Name"></td>
                         <td ng-bind="x.Surname"></td>
                         <td ng-bind="x.Position"></td>
                         <td ng-bind="x.Team"></td>
-                        <td><button class="btn btn-success btn-sm" type="submit" ng-click="ToMyList(x.Id,x.Surname)" ng-cloak><span class="glyphicon glyphicon-ok-sign"></span> Add</button></td>
+                        <td><button class="btn btn-success btn-sm" type="submit" ng-click="ToMyList(x.Id, lSelect,x.Surname)" ng-cloak><span class="glyphicon glyphicon-ok-sign"></span> Add</button></td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div class="col-md-6">
-            <h3 ng-cloak><span class="glyphicon glyphicon-user" style="color: #29c711"></span> My Selected Player</h3>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <td>Name</td>
-                        <td>Surname</td>
-                        <td>Position</td>
-                        <td>Team</td>
-                        <td>Option</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="x in MyPlayers">
-                        <td ng-bind="x.Name"></td>
-                        <td ng-bind="x.Surname"></td>
-                        <td ng-bind="x.Position"></td>
-                        <td ng-bind="x.Team"></td>
-                        <td><button class="btn btn-danger btn-sm" ng-click="RemovePlayer(x.Id)" ng-cloak><span class="glyphicon glyphicon-remove-sign"></span> Remove</button></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+            <h3 ng-cloak><span class="glyphicon glyphicon-user" style="color: #29c711"></span>  My Lists</h3>
+            <select ng-model="lSelect" ng-change="MyPlayerList(lSelect)" ng-cloak>
+                <option ng-repeat="x in lists" value="{{x.Id}}">{{x.Name}}</option>
+            </select>
+            <form name="listForm" ng-cloak>
+                <input type="text" ng-model="newlist" placeholder="name of new list" ng-required="true" /><button class="btn btn-success btn-sm" type="submit" ng-disabled="listForm.$invalid" ng-click="AddList()"><span class="glyphicon glyphicon-plus-sign"></span></button>
+            </form>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>Surname</td>
+                            <td>Position</td>
+                            <td>Team</td>
+                            <td>Option</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="x in MyPlayers">
+                            <td ng-bind="x.Name"></td>
+                            <td ng-bind="x.Surname"></td>
+                            <td ng-bind="x.Position"></td>
+                            <td ng-bind="x.Team"></td>
+                            <td><button class="btn btn-danger btn-sm" ng-click="RemovePlayer(x.Id, lSelect)" ng-cloak><span class="glyphicon glyphicon-remove-sign"></span> Remove</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+</div>
     </div>
 </div>

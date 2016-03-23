@@ -15,8 +15,10 @@ namespace PlayersProject.Models.Mappings
             Map(x => x.Surname);
             Map(x => x.Position);
             Map(x => x.Team);
-            References(x => x.Lists)
-                .Cascade.All();
+            Map(x => x.AddCount);                  
+            HasManyToMany(x => x.Lists)
+                .Cascade.All()
+                .Table("PlayerList");
         }
     }
 }

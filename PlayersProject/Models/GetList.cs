@@ -9,8 +9,8 @@ namespace PlayersProject.Models
     public interface IGetList
     {
         IList<T> Get<T>();
-        IList<Player> GetMyList();
-        bool exist(Player p);
+        IList<Player> GetMyList(int id);
+        IList<MyList> GetLists();
     }
 
     public class GetList : IGetList
@@ -22,31 +22,22 @@ namespace PlayersProject.Models
             u = uow;
         }
 
+        //Get List of players
         public virtual IList<T> Get<T>()
         {
             return u.session().Query<T>().ToList();        
         }
 
-        public virtual IList<Player> GetMyList()
+        //Get My List of players
+        public virtual IList<Player> GetMyList(int id)
         {
-            var mylist = u.session().Query<MyList>().Count();
-            if (mylist < 1)
-            {
-                var addlist = new MyList { Name = "mylist" };
-                u.session().SaveOrUpdate(addlist);
-
-                u.Commit();
-            }
-
-            return u.session().Query<MyList>().Where(x => x.Name == "mylist").Single().Players.ToList();
+            return u.session().Load<MyList>(id).Players.ToList();
         }
 
-        public virtual bool exist(Player p)
+        //Get lists
+        public virtual IList<MyList> GetLists()
         {
-            var e = Get<Player>().Where(x => x.Name == p.Name && x.Surname == p.Surname).Count();
-
-            if (e > 0) return true;
-            else return false;
+            return u.session().Query<MyList>().ToList();
         }
     }
 }

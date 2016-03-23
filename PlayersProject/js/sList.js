@@ -25,10 +25,10 @@
             return deferred.promise;
         }
 
-        this.GetMyPlayers = function () {
+        this.GetMyPlayers = function (id) {
             var deferred = $q.defer();
 
-            $http.get("http://localhost:52861/api/MyPlayers").then(function (response) {
+            $http.get("http://localhost:52861/api/MyPlayers/" + id).then(function (response) {
                 deferred.resolve(response.data);
             });
 
@@ -50,11 +50,11 @@
             return deferred.promise;
         }
 
-        this.MyListPost = function (id) {
+        this.MyListPost = function (idP,idL) {
             
             var deferred = $q.defer();
 
-            $http.post("http://localhost:52861/api/MyPlayers/" + id).then(function (response) {
+            $http.post("http://localhost:52861/api/MyPlayers/", [idP,idL]).then(function (response) {
                 deferred.resolve(response.data);
             }, function (error) {
                 deferred.reject(error.status);
@@ -63,10 +63,37 @@
             return deferred.promise;
         }
 
-        this.RemoveMyPlayer = function (id) {
+        this.AddList = function (name) {
+            var newlist = { "Name": name };
+
             var deferred = $q.defer();
 
-            $http.put("http://localhost:52861/api/MyPlayers/" + id).then(function (response) {
+            $http.post("http://localhost:52861/api/Lists", newlist).then(function (response) {
+                deferred.resolve(response.data);
+            },
+            function (error) {
+                deferred.reject(error.status);
+            });
+
+            return deferred.promise;
+        }
+
+        this.GetLists = function () {
+            var deferred = $q.defer();
+
+            $http.get("http://localhost:52861/api/Lists").then(function (response) {
+                deferred.resolve(response.data);
+            }, function (error) {
+                deferred.reject(error.status);
+            });
+
+            return deferred.promise;
+        }
+
+        this.RemoveMyPlayer = function (idP,idL) {
+            var deferred = $q.defer();
+
+            $http.put("http://localhost:52861/api/MyPlayers/",[idP,idL]).then(function (response) {
                 deferred.resolve(response.data);
             });
 
