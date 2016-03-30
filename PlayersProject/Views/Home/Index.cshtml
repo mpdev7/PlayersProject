@@ -6,17 +6,42 @@
     <div class="jumbotron" style="background-color:slategrey;">
         <h1>Players <span style="color:firebrick">Platform</span></h1>
     </div>
-    <form name="insertForm">
-        <input type="text" ng-model="obj.name" placeholder="name" ng-required="true"/>
-        <input type="text" ng-model="obj.surname" placeholder="surname" ng-required="true"/>
-        <input type="text" ng-model="obj.position" placeholder="position" ng-required="true"/>
-        <input type="text" ng-model="obj.team" placeholder="team" ng-required="true"/>
-        <button class="btn btn-primary" type="submit" ng-disabled="insertForm.$invalid" ng-click="AddPlayer()">Insert new player</button>
+    @*Insert of new player form*@
+    <form class="form-group collapse" id="addplayer" name="insertForm">
+        <div class="row">
+            <div class="col-md-3">
+                <input class="form-control" type="text" ng-model="obj.name" placeholder="name" ng-required="true" />
+            </div>
+            <div class="col-md-3">
+                <input class="form-control" type="text" ng-model="obj.surname" placeholder="surname" ng-required="true" />
+            </div>
+            <div class="col-md-3">
+                <select class="form-control" ng-model="obj.position" ng-required="true" ng-cloak>
+                    <option ng-repeat="x in position" value="{{x}}">{{x}}</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control" type="text" ng-model="obj.team" placeholder="team" ng-required="true" />
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="text-center">
+                <button class="btn btn-primary" type="submit" ng-disabled="insertForm.$invalid" style="margin-top:10px" ng-click="AddPlayer()">Insert new player</button>
+            </div>
+        </div>
     </form>
     <div class="row">
-        <div class="col-md-12 alert alert-danger" style="margin-top: 10px;" ng-show="ErrorView" ng-cloak><p ng-bind="ErrorPost"></p></div>   
+        @*Error view*@
+        <div class="col-md-12 alert alert-danger" style="margin-top: 10px;" ng-show="ErrorView" ng-cloak><p ng-bind="ErrorPost"></p></div>
         <div class="col-md-6">
-            <h3 ng-cloak><span class="glyphicon glyphicon-user" style="color: firebrick"></span> {{title}}</h3>
+            @*List of player with button of add new*@
+            <div class="row">
+                <div class="col-md-8">
+                    <h3 ng-cloak><span class="glyphicon glyphicon-user" style="color: firebrick"></span> {{title}}</h3>
+                    <button type="button" ng-class="btnListClass" ng-click="changeListClass()" data-toggle="collapse" data-target="#addplayer"><span ng-class="btnListSpanClass"></span> Add Player</button>
+                </div>
+            </div>
             <table class="table">
                 <thead>
                     <tr>
@@ -41,33 +66,52 @@
             </table>
         </div>
         <div class="col-md-6">
-            <h3 ng-cloak><span class="glyphicon glyphicon-user" style="color: #29c711"></span>  My Lists</h3>
-            <select ng-model="lSelect" ng-change="MyPlayerList(lSelect)" ng-cloak>
-                <option ng-repeat="x in lists" value="{{x.Id}}">{{x.Name}}</option>
-            </select>
-            <form name="listForm" ng-cloak>
-                <input type="text" ng-model="newlist" placeholder="name of new list" ng-required="true" /><button class="btn btn-success btn-sm" type="submit" ng-disabled="listForm.$invalid" ng-click="AddList()"><span class="glyphicon glyphicon-plus-sign"></span></button>
-            </form>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <td>Name</td>
-                            <td>Surname</td>
-                            <td>Position</td>
-                            <td>Team</td>
-                            <td>Option</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="x in MyPlayers">
-                            <td ng-bind="x.Name"></td>
-                            <td ng-bind="x.Surname"></td>
-                            <td ng-bind="x.Position"></td>
-                            <td ng-bind="x.Team"></td>
-                            <td><button class="btn btn-danger btn-sm" ng-click="RemovePlayer(x.Id, lSelect)" ng-cloak><span class="glyphicon glyphicon-remove-sign"></span> Remove</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-</div>
+            @*My Lists*@
+            <div class="row">
+                <div class="col-md-7">
+                    <h3 ng-cloak><span class="glyphicon glyphicon-user" style="color: #29c711"></span>  My Lists</h3>
+                </div>
+                <div class="col-md-5">
+                    <select class="form-control" style="margin-top:20px; margin-bottom:10px" ng-model="lSelect" ng-change="MyPlayerList(lSelect)" ng-cloak>
+                        <option ng-repeat="x in lists" value="{{x.Id}}">{{x.Name}}</option>
+                    </select>
+                </div>
+            </div>
+            @*List of my player*@
+            <div class="row">
+                <button id="btnlist" ng-class="myListClass" ng-click="changeMyListClass()" data-toggle="collapse" data-target="#addlist"><span ng-class="myListSpanClass" class="gly"></span> Add List</button>
+                <div class="row collapse" id="addlist">
+                    <div class="col-md-6">
+                        <form name="listForm" class="form-group" ng-cloak>
+                            <input class="form-control" type="text" ng-model="newlist" placeholder="name of new list" ng-required="true" />
+                        </form>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-success btn-sm" type="submit" ng-disabled="listForm.$invalid" ng-click="AddList()"><span class="glyphicon glyphicon-plus-sign"></span> Add</button>
+                    </div>
+
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Surname</td>
+                        <td>Position</td>
+                        <td>Team</td>
+                        <td>Option</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="x in MyPlayers">
+                        <td ng-bind="x.Name"></td>
+                        <td ng-bind="x.Surname"></td>
+                        <td ng-bind="x.Position"></td>
+                        <td ng-bind="x.Team"></td>
+                        <td><button class="btn btn-danger btn-sm" ng-click="RemovePlayer(x.Id, lSelect)" ng-cloak><span class="glyphicon glyphicon-remove-sign"></span> Remove</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
